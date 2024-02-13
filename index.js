@@ -1,4 +1,6 @@
 import express from 'express' 
+import axios from 'axios'
+
 // Express app
 const app = express()
 // Router
@@ -20,8 +22,10 @@ router.get('^/$|/ejd', (req, res)=>{
 })
 // /educations
 router.get('/education', async (req, res)=>{
-    let response = await fetch(dataURL)
-    let {education} = await response.json()
+    // let response = await fetch(dataURL)
+    // let {education} = await response.json()
+    let response = await axios.get(dataURL)
+    let {education} = await response.data
     res.json({
         status: res.statusCode,
         education
@@ -31,11 +35,29 @@ router.get('/education', async (req, res)=>{
 router.get('/education/:id', async (req, res)=>{
     let response = await fetch(dataURL)
     let {education} = await response.json()
+    let params = +req.params.id
+    let idx = params > 0 ? params - 1 : 0
     res.json({
         status: res.statusCode,
-        education: education[+req.params.id - 1]
+        education: education[idx]
     })
 })
+router.post('/addEducation', async (req, res)=>{
+    let response = await axios.post(
+        dataURL, {
+            id: idx,
+            year: new Date().getFullYear(),
+            description: ''
+        }
+    )
+})
+router.patch('/updateEducation', (req, res)=>{
+
+})
+router.delete('/deleteEducation', (req, res)=>{
+
+})
+
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);
 })
