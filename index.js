@@ -69,7 +69,7 @@ bodyParser.json(), async (req, res)=>{
             /*
             Please remove all consoles before you can deploy your backend.
             */
-            console.log(resVal.data);
+            console.log(dataRes.data);
             res.json({
                 status: res.statusCode,
                 msg: 'New record was added'
